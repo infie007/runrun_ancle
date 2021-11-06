@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"runrun_ancle/tools"
+	"runrun_uncle/tools"
 
 	"github.com/gomodule/redigo/redis"
 )

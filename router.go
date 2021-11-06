@@ -1,7 +1,7 @@
 package main
 
 import (
-	"runrun_ancle/handler"
+	"runrun_uncle/handler"
 
 	"github.com/gin-gonic/gin"
 )
