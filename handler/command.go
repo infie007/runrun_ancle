@@ -51,7 +51,7 @@ func HandleCommand(c *gin.Context) {
 			return
 		}
 
-		newScoreString := fmt.Sprintf("当前陈🐷在小香🐷心目中的分数是：%v\n此次分数变化：%v\n新分数：%v，要继续努力哦～", currentScore, change, newScore)
+		newScoreString := fmt.Sprintf("当前陈🐷在小香🐷心目中的分数是：%.1f\n此次分数变化：%v\n新分数：%.1f，要继续努力哦～", currentScore, change, newScore)
 		tools.NewReply(c, msg, newScoreString)
 		return
 	}
