@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HandleHelloWorld(c *gin.Context) {
+func HandleCommand(c *gin.Context) {
 	token := c.DefaultQuery("token", "0")
 	timestamp := c.DefaultQuery("timestamp", "0")
 	nonce := c.DefaultQuery("timestamp", "0")
