@@ -32,7 +32,7 @@ func HandleCommand(c *gin.Context) {
 			return
 		}
 		log.Printf("current: %v", currentScore)
-		currentScoreString := fmt.Sprintf("%.2f", currentScore)
+		currentScoreString := fmt.Sprintf("当前陈🐷在陈🐷🐷心目中的分数是%.1f", currentScore)
 		tools.NewReply(c, msg, currentScoreString)
 	}
 
