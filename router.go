@@ -10,7 +10,8 @@ func BuildRouter() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/change_score", handler.HandleChangeScore)
-	router.GET("/command", handler.HandleCommand)
+	router.GET("/command", handler.HandleHellowWorld)
+	router.POST("/command", handler.HandleCommand)
 
 	return router
 }
