@@ -2,10 +2,14 @@ package handler
 
 import (
 	"encoding/xml"
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"log"
 	"net/http"
+	"runrun_uncle/dal/redis"
 	"runrun_uncle/model"
+	"runrun_uncle/tools"
+
+	"github.com/gin-gonic/gin"
 )
 
 func HandleCommand(c *gin.Context) {
@@ -21,12 +25,16 @@ func HandleCommand(c *gin.Context) {
 		log.Println(msg.Content)
 	}
 
-	//switch msg.Content {
-	//	CommandScore
-	//}
+	if msg.Content == "分数" {
+		currentScore, err := redis.GetScore()
+		if err != nil {
+			c.String(http.StatusOK, "接口错误")
+			return
+		}
+		log.Printf("current: %v", currentScore)
+		currentScoreString := fmt.Sprintf("%.2f", currentScore)
+		tools.NewReply(c, msg, currentScoreString)
+	}
 
-	reply := model.NewReplyMsq(msg, "你好")
-	replyBytes, _ := xml.Marshal(reply)
-
-	c.String(http.StatusOK, string(replyBytes))
+	tools.NewReply(c, msg, "未知指令")
 }
