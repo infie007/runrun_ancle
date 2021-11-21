@@ -104,7 +104,7 @@ func replyByContent(c *gin.Context, msg *model.MsgStruct) (notSent bool) {
 		tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷下次大姨妈大概率会在12月6-11日之间来，其中8-11日的概率最大！当时你人会在Wuppertal，请于6号开始准备好姨妈巾和棉条哦！"))
 		return
 	} else if msg.Content == "英国" {
-		tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷的用BKF187684去查sattle status就能查到了嘻嘻嘻！"))
+		tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷用BKF187684去查sattle status就能查到了嘻嘻嘻！"))
 		return
 	}
 
