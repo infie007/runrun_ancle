@@ -29,3 +29,27 @@ func SetScore(score float64) error {
 
 	return nil
 }
+
+func Get(key string) (string, error) {
+	redis.DialDatabase(0)
+	conn := Pool.Get()
+	result, err := redis.Bytes(conn.Do("Get", key))
+
+	if err != nil {
+		return "", err
+	}
+
+	return string(result), nil
+}
+
+func Set(key, value string) error {
+	redis.DialDatabase(0)
+	conn := Pool.Get()
+	_, err := redis.Bytes(conn.Do("Set", key, value))
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

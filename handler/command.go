@@ -7,6 +7,7 @@ import (
 	"runrun_uncle/dal/redis"
 	"runrun_uncle/model"
 	"runrun_uncle/tools"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,38 @@ func HandleCommand(c *gin.Context) {
 }
 
 func replyByContent(c *gin.Context, msg *model.MsgStruct) (notSent bool) {
-	if msg.Content == "分数" {
+	if strings.Contains(msg.Content, "记笔记") {
+		sList := strings.Split(msg.Content, " ")
+		if len(sList) == 3 {
+			k := sList[1]
+			v := sList[2]
+			err := redis.Set(k, v)
+			if err != nil {
+				tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷记笔记的时候出了点小错误，再试一次！"))
+				return
+			}
+			tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷记笔记完成，查笔记方式：「查笔记 key」！"))
+			return
+		} else {
+			tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷当前记笔记的方式不对哦，参见格式「记笔记 key value」！"))
+			return
+		}
+	} else if strings.Contains(msg.Content, "查笔记") {
+		sList := strings.Split(msg.Content, " ")
+		if len(sList) == 2 {
+			k := sList[1]
+			v, err := redis.Get(k)
+			if err != nil {
+				tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷查笔记的时候出了点小错误，再试一次！"))
+				return
+			}
+			tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷查笔记完成，结果为：%s", v))
+			return
+		} else {
+			tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷当前查笔记的方式不对哦，参见格式「查笔记 key」！"))
+			return
+		}
+	} else if msg.Content == "分数" {
 		currentScore, err := redis.GetScore()
 		if err != nil {
 			tools.NewReply(c, msg, "接口错误，快喊陈🐷来修bug！")
@@ -70,6 +102,9 @@ func replyByContent(c *gin.Context, msg *model.MsgStruct) (notSent bool) {
 		return
 	} else if msg.Content == "姨妈" {
 		tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷下次大姨妈大概率会在12月6-11日之间来，其中8-11日的概率最大！当时你人会在Wuppertal，请于6号开始准备好姨妈巾和棉条哦！"))
+		return
+	} else if msg.Content == "英国" {
+		tools.NewReply(c, msg, fmt.Sprintf("宝贝🐷的用BKF187684去查sattle status就能查到了嘻嘻嘻！"))
 		return
 	}
 
